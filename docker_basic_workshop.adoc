@@ -1,0 +1,481 @@
+// vim: set syntax=asciidoc:
+[[docker_basic_workshop]]
+= Docker Basics
+:data-uri:
+:icons:
+:toc:
+:toclevels 4:
+:numbered:
+:Author: Aditya Patawari, Lalatendu Mohanty
+:Email:  aditya@adityapatawari.com lmohanty@redhat.com
+
+== What are we looking for?
+
+* Scalability, maintainability, Agility, Portability.
+* Improved resource utilization.
+* A continuum of abstraction levels.
+
+== Linux containers
+
+* Using Linux kernel process isolation and resource features to give a VM
+like environment.
+
+* Docker project is around two years old, but linux containers are older than that e.g. LXC.
+
+* Some examples of linux container runtime: LXC, lmctfy, Docker, Rkt
+
+== Introducing Docker
+
+* Sand boxing of process/Application
+
+* It is an application packaging and delivery mechanism.
+
+* Lightweight container virtualization platform.
+
+== Why Developers Care?
+
+* Build once -> run anywhere*
+* A clean, safe, hygenic and portable runtime environment.
+* No worries about missing dependencies, packages etc.
+* Automate testing, integration, packaging -> anything you can script.
+* It is portable* -> so it reduces the concern about portability.
+
+== Why Operations Care?
+
+* It reduces the time , from developing an application to putting it in to production
+* The entire lifecycle can made more efficient, consistent and repeatable.
+* Reduce the inconsistencies between development, test, production and customer environment.
+* Because the containers are so lightweight, address significant performance, costs, deployment  and portability issues.
+
+== Docker Vs Virtual Machine
+
+* Lighter than Virtual machines.
+* Less startup time
+* We can run a lot of containers on a reasonably sized host.
+* Deploying and scaling relatively easy.
+
+== Kernel Features which enables containrization
+
+* Control Groups
+* Namespaces
+* Union filesystem
+* Kernel Security features
+
+=== Namespace
+
+* It helps to create isolated workspace for each process.
+* When you run a container, Docker creates a set of namespaces for that container.
+
+
+=== Cgroup
+
+* Control Groups are another key component of Linux Containers
+* With Cgroup we can implement resource accounting and limiting.
+* Ensure that each container gets its fair share of memory, CPU, disk I/O.
+* Thanks to Cgroup, we can make sure that single container cannot bring the system down by exhausting resources.
+
+=== Kernel Security features
+
+* Capabilities
+** By default Docker drops all capabilities except those needed.
+** "root" within a container has much less privileges than the real "root".
+** The best practice for users would be to remove all capabilities except those explicitly required for their processes.
+** Even if an intruder manages to escalate to root within a container, it will be much harder to do serious damage, or to escalate to the host
+
+* Other kernel security features: TOMOYO, AppArmor, SELinux, GRSEC, etc.
+
+=== SELinux
+
+* SELinux provides secure separation of containers by applying SELinux policy and labels. 
+
+== Docker Components
+
+* *Image* : It is a template which is used to launch containers. 
+
+* *Container* : Container holds everything that is needed for an application to run.
+
+* *Registry* : It stores and serves up the actual image assets, and it delegates authentication to the index.
+
+* *Index* : It is the front end of Registry. It manages user accounts, permissions, search, tagging, and all that nice stuff that’s in the public web interface
+
+== Installing Docker
+
+Fedora
+^^^^^^
+
+[source, bash]
+-----------------
+$ sudo yum -y install docker
+$ sudo systemctl start docker
+$ sudo systemctl enable docker
+-----------------
+
+Refer: https://docs.docker.com/installation/fedora/
+
+
+== Check your Docker Install
+
+----------
+[root@dhcp35-149 ~]# docker info
+Containers: 2
+Images: 52
+Storage Driver: devicemapper
+ Pool Name: docker-253:0-1313734-pool
+ Pool Blocksize: 65.54 kB
+ Backing Filesystem: extfs
+ Data file: /dev/loop0
+ Metadata file: /dev/loop1
+ Data Space Used: 2.334 GB
+ Data Space Total: 107.4 GB
+ Data Space Available: 33.89 GB
+ Metadata Space Used: 3.781 MB
+ Metadata Space Total: 2.147 GB
+ Metadata Space Available: 2.144 GB
+ Udev Sync Supported: true
+ Data loop file: /var/lib/docker/devicemapper/devicemapper/data
+ Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata
+ Library Version: 1.02.93 (2015-01-30)
+Execution Driver: native-0.2
+Kernel Version: 4.0.4-202.fc21.x86_64
+Operating System: Fedora 21 (Twenty One)
+CPUs: 2
+Total Memory: 1.954 GiB
+Name: dhcp35-149.lab.eng.blr.redhat.com
+----------
+
+== Docker Basic operations
+
+=== Search in public docker index
+----------
+[root@dhcp35-149 ~]# docker search fedora
+INDEX       NAME                                  DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+docker.io   docker.io/fedora                      Official Fedora 21 base image and semi-off...   173       [OK]       
+docker.io   docker.io/tutum/fedora                Fedora image with SSH access. For the root...   7                    [OK]
+docker.io   docker.io/dockingbay/fedora-rust      Trusted build of Rust programming language...   2                    [OK]
+docker.io   docker.io/vbatts/fedora-varnish       https://github.com/vbatts/laughing-octo/tr...   2                    [OK]
+docker.io   docker.io/neroinc/fedora-apache       Plain and simple image with Apache httpd b...   1                    [OK]
+docker.io   docker.io/neroinc/fedora-apache-php   Apache and PHP based on fedora:20               1                    [OK]
+docker.io   docker.io/startx/fedora                                                               1                    [OK]
+docker.io   docker.io/cloudrunnerio/fedora                                                        0                    [OK]
+docker.io   docker.io/dasrick/fedora-nginx        NGINX image - port 80, 443 - based on Fedo...   0                    [OK]
+docker.io   docker.io/opencpu/fedora              Development build of opencpu based on Fedora    0                    [OK]
+----------
+
+=== Pull an image
+----------
+[root@dhcp35-149 ~]# docker pull fedora
+latest: Pulling from docker.io/fedora
+48ecf305d2cf: Pull complete 
+ded7cd95e059: Already exists 
+docker.io/fedora:latest: The image you are pulling has been verified. Important: image verification is a tech preview feature and should not be relied on to provide security.
+Digest: sha256:10ba981a70632d7764c21deae25c6521db6d39730e1dd8caff90719013858a7b
+Status: Downloaded newer image for docker.io/fedora:latest
+----------
+
+Try pulling a tagged image i.e. `docker pull fedora:21`
+
+=== Listing images
+----------
+[root@dhcp35-149 ~]# docker images 
+REPOSITORY                                   TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+docker.io/fedora                             latest              ded7cd95e059        3 weeks ago         186.5 MB
+docker.io/fedora                             21                  e26efd418c48        5 weeks ago         241.3 MB
+docker                                       master              3a69b508ae45        8 weeks ago         1.533 GB
+ubuntu                                       14.04               b7cf8f0d9e82        8 weeks ago         188.3 MB
+ubuntu                                       14.04.2             b7cf8f0d9e82        8 weeks ago         188.3 MB
+ubuntu                                       trusty-20150320     b7cf8f0d9e82        8 weeks ago         188.3 MB
+Fedora-Docker-Base-22_Beta-20150415.x86_64   latest              cf2be2d9b104        9 weeks ago         253.2 MB
+swarm                                        latest              bf8b6923851d        3 months ago        7.19 MB
+
+----------
+=== Start a container from an image
+----------
+[root@dhcp35-149 ~]# docker run -i -t fedora /bin/bash
+[root@61de2e87a647 /]# 
+[root@61de2e87a647 /]# cat /etc/fedora-release 
+Fedora release 22 (Twenty Two)
+
+----------
+=== Listing the containers
+
+Open another terrminal and run below command while running the container as mentioned in the previous state.
+
+----------
+~]# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+61de2e87a647        fedora:latest       "/bin/bash"         2 minutes ago       Up 2 minutes                            stupefied_almeida   
+
+----------
+*To list all containers (both running and stopped)*
+----------
+~]# docker ps -a
+CONTAINER ID        IMAGE                                               COMMAND             CREATED             STATUS                   PORTS               NAMES
+61de2e87a647        fedora:latest                                       "/bin/bash"         6 minutes ago       Up 6 minutes                                 stupefied_almeida     
+1fe645b83f85        Fedora-Docker-Base-22_Beta-20150415.x86_64:latest   "bash"              8 weeks ago         Exited (0) 8 weeks ago                       suspicious_hypatia    
+cc5c9ae72a79        ubuntu:latest                                       "/bin/bash"         8 weeks ago         Exited (0) 8 weeks ago                       ecstatic_heisenberg   
+
+----------
+
+=== Saving a container state
+* Start a container
+* Modify a file
+----------
+[root@dhcp35-149 ~]# docker run -i -t fedora /bin/bash
+[root@61de2e87a647 /]# 
+[root@61de2e87a647 /]# echo "FUDCon workshop 2015" > /etc/motd
+
+----------
+
+* On a different terminal, save the container as an image
+----------
+~]# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+61de2e87a647        fedora:latest       "/bin/bash"         41 minutes ago      Up 41 minutes                           stupefied_almeida   
+
+~]# docker commit -a "Lalatendu Mohanty" -m "FUDCon 2015" 61de2e87a647  fudcon:motd
+8cade8316eed462cf157dc2cefd42b12c1df64fe5708327ec8b42a9ab983256d
+
+~]# docker images 
+REPOSITORY                                   TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+fudcon                                       motd                8cade8316eed        5 minutes ago       186.5 MB
+
+----------
+
+=== Looking in to Docker metatdata
+
+----------
+~]# cat /var/lib/docker/repositories-devicemapper  | python -mjson.tool
+{
+    "Repositories": {
+        "Fedora-Docker-Base-22_Beta-20150415.x86_64": {
+            "latest": "cf2be2d9b10445e2a829b418d864a311e40ec37ee113bea16e3c2faeebde6392"
+        },
+        "docker": {
+            "master": "3a69b508ae4523db33abe6eb3940a548f31b2a3c58dda806414a83e0a039331f"
+        },
+        "docker.io/fedora": {
+            "21": "e26efd418c4841f7299832fe7689de3e820d91a16bb4cff5b72eb9b09d712753",
+            "latest": "ded7cd95e059788f2586a51c275a4f151653779d6a7f4dad77c2bd34601d94e4"
+        },
+        "fudcon": {
+            "motd": "8cade8316eed462cf157dc2cefd42b12c1df64fe5708327ec8b42a9ab983256d"
+        },
+        "swarm": {
+            "latest": "bf8b6923851df5766cec2be2da61a214e42577d8fb3e6739fa0290de71575243"
+        },
+        "ubuntu": {
+            "14.04": "b7cf8f0d9e82c9d96bd7afd22c600bfdb86b8d66c50d29164e5ad2fb02f7187b",
+            "14.04.2": "b7cf8f0d9e82c9d96bd7afd22c600bfdb86b8d66c50d29164e5ad2fb02f7187b",
+            "trusty-20150320": "b7cf8f0d9e82c9d96bd7afd22c600bfdb86b8d66c50d29164e5ad2fb02f7187b"
+        }
+    }
+}
+
+----------
+
+=== Attaching to a container
+
+----------
+~]#  ID=$(sudo docker run -d fedora /bin/sh -c "while true; do echo Rootconf14 ; sleep 1; done")
+~]#  docker attach $ID
+
+----------
+
+=== Stop/Start/Restart a conatiner
+
+----------
+$ docker stop $ID
+$ docker start $ID
+$ docker restart $ID
+----------
+
+=== Looking at the logs of container
+ 
+----------
+$ docker logs $ID
+----------
+
+=== Killing a container
+ 
+----------
+$ docker stop $ID
+$ docker rm $ID
+----------
+
+=== Delete all stopped containers
+ 
+----------
+$ docker rm `docker ps -a -q`
+----------
+=== Privileged access inside container
+ 
+----------
+$ sudo docker run -t -i fedora /bin/bash
+bash-4.2# mount -t tmpfs none /mnt
+mount: permission denied
+bash-4.2# exit
+----------
+
+To get privilaged access, please run below command
+
+----------
+$ sudo docker run --privileged -t -i fedora /bin/bash
+----------
+
+=== Return low level information about container
+ 
+----------
+$ docker inspect $ID
+$ docker inspect --format='{{.NetworkSettings.IPAddress}}'  $ID
+----------
+=== Copy files/folders from a PATH on the container to a HOSTDIR on the host
+ 
+----------
+$ docker cp $ID:/etc/motd /tmp/
+----------
+
+=== Run a command inside a directory while starting a container
+
+----------
+$ docker run -t -i -w /etc fedora ls
+----------
+Note : if the path does not exist, it will get created
+
+=== List the changed files and directories in a container’s filesystem
+
+---------------
+docker diff $ID
+---------------
+
+* A Add
+* D Delete
+* C Change
+
+=== History of the image
+
+---------------
+$ docker history
+---------------
+
+=== Port redirection
+
+*Bind a port to host interface*
+
+* Bind TCP port 8080 of the container to TCP port 80 on 127.0.0.1 of the host machine. 
+---------------
+$ docker run -d -i -t -p 127.0.0.1:8080:80 fedora bash
+---------------
+
+* Bind TCP port 8080 of the container to a dynamically allocated TCP port on 127.0.0.1 of the host machine. 
+---------------
+$ docker run -d -i -t -p 127.0.0.1::8080 fedora bash
+---------------
+
+* Bind TCP port 8080 of the container to TCP port 80 on all available interfaces of the host machine. 
+----------------
+docker run -d -i -t -p 80:8080 fedora bash
+----------------
+
+*  Bind TCP port 8080 of the container to a dynamically allocated TCP port on all available interfaces of the host machine.
+---------------
+docker run -d -i -t -p 8080 fedora bash
+---------------
+
+=== Exposing a port while starting a container
+
+---------------
+$ ID=$(docker run --expose=22 -d -i -t rootconf:sshd /bin/bash)
+---------------
+
+=== Mount a host directory on a conatiner
+
+---------------
+$ docker run  -i -t -v /var/logs:/logs_from_host:ro fedora bash
+$ ls logs_from_host/
+---------------
+
+=== Remove docker image
+
+---------------
+docker rmi <imagename>
+---------------
+
+Remove all images
+
+---------------
+docker rmi $(docker images -q)
+---------------
+
+== DockerFiles
+
+=== Building an image
+
+----------
+$ mkdir /tmp/fudcon; cd /tmp/fudcon
+$ echo "FROM fedora"  >> Dockerfile
+$ echo "MAINTAINER Lalatendu" >> Dockerfile
+$ docker build -t fudcon/fedora .
+$ docker images
+docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+fudcon/fedora       latest              8968bd645e1e        9 seconds ago       186.5 MB
+docker.io/fedora    latest              ded7cd95e059        4 weeks ago         186.5 MB
+----------
+
+=== DockerFile Instructions
+
+* FROM <image> | <image>:<tag>
+
+    Set the base image
+
+* MAINTAINER <name>
+
+    Set the author
+
+* RUN <cmd> | ["executable", "param1", "param2"]
+
+    Executes any commands in a new layer on top of the current image and commit the results
+
+* CMD ["executable","param1","param2"] | ["param1","param2"] | command param1 param2
+
+    Provides defaults for an executing container
+
+* EXPOSE <port> [<port> …]
+
+    Open up specified network ports at runtime
+
+* ENV <key> <value>
+
+    This sets the environment variable <key> to the value <value>
+
+* ADD <src> <dest>
+
+    Copy new files from source and add them to the container's filesystem at path
+
+* ENTYRPOINT ["executable", "param1", "param2"] | command param1 param2
+
+    Helps to configure a container that you can run as an executable.
+
+* VOLUME ["/data"]
+
+    Creates a mount point with the specified name and mark it as holding externally mounted volumes from native host or other containers.
+
+* USER
+
+    Sets the username or UID to use when running the image.
+
+* WORKDIR
+
+    Sets the working directory
+
+* ONBUILD [INSTRUCTION]
+
+    Adds to the image a "trigger" instruction to be executed at a later time, when the image is used as the base for another build.
+
+== References
+
+* http://www.slideshare.net/dotCloud/docker-intro-november
+* http://www.slideshare.net/jamtur01/introduction-to-docker-30285720
+* http://neependra.net/docker/rootconfWorkshop.html
+* https://www.packtpub.com/virtualization-and-cloud/docker-cookbook
+
