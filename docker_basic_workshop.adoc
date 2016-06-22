@@ -116,84 +116,90 @@ Refer: https://docs.docker.com/installation/fedora/
 == Check your Docker Install
 
 ----------
-[root@dhcp35-149 ~]# docker info
+$ docker info
 Containers: 2
-Images: 52
+Images: 13
+Server Version: 1.9.1
 Storage Driver: devicemapper
- Pool Name: docker-253:0-1313734-pool
- Pool Blocksize: 65.54 kB
- Backing Filesystem: extfs
- Data file: /dev/loop0
- Metadata file: /dev/loop1
- Data Space Used: 2.334 GB
- Data Space Total: 107.4 GB
- Data Space Available: 33.89 GB
- Metadata Space Used: 3.781 MB
- Metadata Space Total: 2.147 GB
- Metadata Space Available: 2.144 GB
+ Pool Name: vg001-docker--pool
+ Pool Blocksize: 524.3 kB
+ Base Device Size: 107.4 GB
+ Backing Filesystem: xfs
+ Data file: 
+ Metadata file: 
+ Data Space Used: 798 MB
+ Data Space Total: 13.6 GB
+ Data Space Available: 12.8 GB
+ Metadata Space Used: 225.3 kB
+ Metadata Space Total: 46.14 MB
+ Metadata Space Available: 45.91 MB
  Udev Sync Supported: true
- Data loop file: /var/lib/docker/devicemapper/devicemapper/data
- Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata
- Library Version: 1.02.93 (2015-01-30)
+ Deferred Removal Enabled: true
+ Deferred Deletion Enabled: true
+ Deferred Deleted Device Count: 0
+ Library Version: 1.02.107-RHEL7 (2015-12-01)
 Execution Driver: native-0.2
-Kernel Version: 4.0.4-202.fc21.x86_64
-Operating System: Fedora 21 (Twenty One)
+Logging Driver: json-file
+Kernel Version: 3.10.0-327.18.2.el7.x86_64
+Operating System: CentOS Linux 7 (Core)
 CPUs: 2
-Total Memory: 1.954 GiB
-Name: dhcp35-149.lab.eng.blr.redhat.com
+Total Memory: 992.8 MiB
+Name: centos7-adb
+ID: PMBW:NKH6:AW3M:PI3A:XLKG:LTJF:O7IE:WGFB:BFEN:G7HS:SDRM:UY5R
+WARNING: bridge-nf-call-iptables is disabled
+WARNING: bridge-nf-call-ip6tables is disabled
 ----------
 
 == Docker Basic operations
 
 === Search in public docker index
 ----------
-[root@dhcp35-149 ~]# docker search fedora
-INDEX       NAME                                  DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
-docker.io   docker.io/fedora                      Official Fedora 21 base image and semi-off...   173       [OK]       
-docker.io   docker.io/tutum/fedora                Fedora image with SSH access. For the root...   7                    [OK]
-docker.io   docker.io/dockingbay/fedora-rust      Trusted build of Rust programming language...   2                    [OK]
-docker.io   docker.io/vbatts/fedora-varnish       https://github.com/vbatts/laughing-octo/tr...   2                    [OK]
-docker.io   docker.io/neroinc/fedora-apache       Plain and simple image with Apache httpd b...   1                    [OK]
-docker.io   docker.io/neroinc/fedora-apache-php   Apache and PHP based on fedora:20               1                    [OK]
-docker.io   docker.io/startx/fedora                                                               1                    [OK]
-docker.io   docker.io/cloudrunnerio/fedora                                                        0                    [OK]
-docker.io   docker.io/dasrick/fedora-nginx        NGINX image - port 80, 443 - based on Fedo...   0                    [OK]
-docker.io   docker.io/opencpu/fedora              Development build of opencpu based on Fedora    0                    [OK]
+$ docker search fedora
+INDEX       NAME                                     DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+docker.io   docker.io/fedora                         Official Docker builds of Fedora                371       [OK]       
+docker.io   docker.io/dockingbay/fedora-rust         Trusted build of Rust programming language...   3                    [OK]
+docker.io   docker.io/gluster/gluster-fedora         Official GlusterFS image [ Fedora 21 + Glu...   3                    [OK]
+docker.io   docker.io/eminguez/transmission-fedora   Transmission Fedora 22 docker container         2                    [OK]
+docker.io   docker.io/startx/fedora                  Simple container used for all startx based...   2                    [OK]
+docker.io   docker.io/dasrick/fedora-nginx           NGINX image - port 80, 443 - based on Fedo...   1                    [OK]
+docker.io   docker.io/fedora/tools                   Docker image that has systems administrati...   1                    [OK]
+docker.io   docker.io/mattsch/fedora-rpmfusion       Base container for Fedora 22 with RPM Fusi...   1                    [OK]
+docker.io   docker.io/neroinc/fedora-apache          Plain and simple image with Apache httpd b...   1                    [OK]
+docker.io   docker.io/cloudrunnerio/fedora                                                           0                    [OK]
 ----------
 
 === Pull an image
 ----------
-[root@dhcp35-149 ~]# docker pull fedora
-latest: Pulling from docker.io/fedora
-48ecf305d2cf: Pull complete 
-ded7cd95e059: Already exists 
-docker.io/fedora:latest: The image you are pulling has been verified. Important: image verification is a tech preview feature and should not be relied on to provide security.
-Digest: sha256:10ba981a70632d7764c21deae25c6521db6d39730e1dd8caff90719013858a7b
+$ docker pull fedora
+Using default tag: latest
+Trying to pull repository docker.io/library/fedora ... latest: Pulling from library/fedora
+
+62b0615068df: Pull complete 
+cd1e9127a3f8: Pull complete 
+Digest: sha256:52db7a1a18f173622a9b1a75354c7266220bffb7187c4880590805af0d7679d6
 Status: Downloaded newer image for docker.io/fedora:latest
+
 ----------
 
-Try pulling a tagged image i.e. `docker pull fedora:21`
+Try pulling a tagged image i.e. `docker pull fedora:23`
 
 === Listing images
 ----------
-[root@dhcp35-149 ~]# docker images 
-REPOSITORY                                   TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
-docker.io/fedora                             latest              ded7cd95e059        3 weeks ago         186.5 MB
-docker.io/fedora                             21                  e26efd418c48        5 weeks ago         241.3 MB
-docker                                       master              3a69b508ae45        8 weeks ago         1.533 GB
-ubuntu                                       14.04               b7cf8f0d9e82        8 weeks ago         188.3 MB
-ubuntu                                       14.04.2             b7cf8f0d9e82        8 weeks ago         188.3 MB
-ubuntu                                       trusty-20150320     b7cf8f0d9e82        8 weeks ago         188.3 MB
-Fedora-Docker-Base-22_Beta-20150415.x86_64   latest              cf2be2d9b104        9 weeks ago         253.2 MB
-swarm                                        latest              bf8b6923851d        3 months ago        7.19 MB
+$ docker images 
+REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+docker.io/fedora    23                  5a813a9e051e        31 hours ago        214.4 MB
+docker.io/fedora    latest              cd1e9127a3f8        34 hours ago        204.4 MB
+docker.io/centos    latest              a65193109361        2 weeks ago         196.7 MB
+docker.io/ubuntu    latest              8e5b7248472b        3 weeks ago         122 MB
+docker.io/busybox   latest              0d380282e68b        3 months ago        1.113 MB
 
 ----------
 === Start a container from an image
 ----------
-[root@dhcp35-149 ~]# docker run -i -t fedora /bin/bash
-[root@61de2e87a647 /]# 
-[root@61de2e87a647 /]# cat /etc/fedora-release 
-Fedora release 22 (Twenty Two)
+$ docker run -it fedora bash
+[root@57c2ac5812d5 /]# 
+[root@57c2ac5812d5 /]# cat /etc/fedora-release 
+Fedora release 24 (Twenty Four)
 
 ----------
 === Listing the containers
@@ -201,18 +207,19 @@ Fedora release 22 (Twenty Two)
 Open another terrminal and run below command while running the container as mentioned in the previous state.
 
 ----------
-~]# docker ps
+$ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
-61de2e87a647        fedora:latest       "/bin/bash"         2 minutes ago       Up 2 minutes                            stupefied_almeida   
+2e18e1d045ed        centos              "bash"              7 minutes ago       Up 7 minutes                            gloomy_spence
+5e7d81c7e1ad        busybox             "sh"                7 minutes ago       Up 7 minutes                            kickass_curie
 
 ----------
 *To list all containers (both running and stopped)*
 ----------
-~]# docker ps -a
-CONTAINER ID        IMAGE                                               COMMAND             CREATED             STATUS                   PORTS               NAMES
-61de2e87a647        fedora:latest                                       "/bin/bash"         6 minutes ago       Up 6 minutes                                 stupefied_almeida     
-1fe645b83f85        Fedora-Docker-Base-22_Beta-20150415.x86_64:latest   "bash"              8 weeks ago         Exited (0) 8 weeks ago                       suspicious_hypatia    
-cc5c9ae72a79        ubuntu:latest                                       "/bin/bash"         8 weeks ago         Exited (0) 8 weeks ago                       ecstatic_heisenberg   
+$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                      PORTS               NAMES
+57c2ac5812d5        fedora              "bash"              2 minutes ago       Exited (0) 38 seconds ago                       grave_babbage
+2e18e1d045ed        centos              "bash"              7 minutes ago       Up 7 minutes                                    gloomy_spence
+5e7d81c7e1ad        busybox             "sh"                7 minutes ago       Up 7 minutes                                    kickass_curie
 
 ----------
 
@@ -220,65 +227,69 @@ cc5c9ae72a79        ubuntu:latest                                       "/bin/ba
 * Start a container
 * Modify a file
 ----------
-[root@dhcp35-149 ~]# docker run -i -t fedora /bin/bash
-[root@61de2e87a647 /]# 
-[root@61de2e87a647 /]# echo "FUDCon workshop 2015" > /etc/motd
+$ docker run -i -t fedora /bin/bash
+[root@88226d270d64 /]# 
+[root@88226d270d64 /]# echo "FUDCon workshop 2015" > /etc/motd
 
 ----------
 
 * On a different terminal, save the container as an image
 ----------
-~]# docker ps
+$ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
-61de2e87a647        fedora:latest       "/bin/bash"         41 minutes ago      Up 41 minutes                           stupefied_almeida   
+88226d270d64        fedora              "/bin/bash"         41 seconds ago      Up 40 seconds                           small_williams
+2e18e1d045ed        centos              "bash"              8 minutes ago       Up 8 minutes                            gloomy_spence
+5e7d81c7e1ad        busybox             "sh"                9 minutes ago       Up 9 minutes                            kickass_curie
 
-~]# docker commit -a "Lalatendu Mohanty" -m "FUDCon 2015" 61de2e87a647  fudcon:motd
-8cade8316eed462cf157dc2cefd42b12c1df64fe5708327ec8b42a9ab983256d
+$ docker commit -a "Lalatendu Mohanty" -m "PyCon 2016" 88226d270d64 pycon:motd
+f6b39867b3e9b8f118510a3e956704726291b37984b1abc74ba8b8061f751556
 
-~]# docker images 
-REPOSITORY                                   TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
-fudcon                                       motd                8cade8316eed        5 minutes ago       186.5 MB
 
+$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+pycon               motd                f6b39867b3e9        5 seconds ago       204.4 MB
+docker.io/fedora    23                  5a813a9e051e        31 hours ago        214.4 MB
+docker.io/fedora    latest              cd1e9127a3f8        34 hours ago        204.4 MB
+docker.io/centos    latest              a65193109361        2 weeks ago         196.7 MB
+docker.io/ubuntu    latest              8e5b7248472b        3 weeks ago         122 MB
+docker.io/busybox   latest              0d380282e68b        3 months ago        1.113 MB
 ----------
 
 === Looking in to Docker metatdata
 
 ----------
-~]# cat /var/lib/docker/repositories-devicemapper  | python -mjson.tool
+$ sudo cat /var/lib/docker/repositories-devicemapper  | python -mjson.tool
 {
+    "ConfirmDefPush": true,
     "Repositories": {
-        "Fedora-Docker-Base-22_Beta-20150415.x86_64": {
-            "latest": "cf2be2d9b10445e2a829b418d864a311e40ec37ee113bea16e3c2faeebde6392"
+        "docker.io/busybox": {
+            "latest": "0d380282e68b755298e8260191124eb84defc04c1de31173df2d837d64e504b8"
         },
-        "docker": {
-            "master": "3a69b508ae4523db33abe6eb3940a548f31b2a3c58dda806414a83e0a039331f"
+        "docker.io/centos": {
+            "latest": "a65193109361c1c55a0baa79c2167ec417b977f284b3358f4d50b81e22f84ec5"
         },
         "docker.io/fedora": {
-            "21": "e26efd418c4841f7299832fe7689de3e820d91a16bb4cff5b72eb9b09d712753",
-            "latest": "ded7cd95e059788f2586a51c275a4f151653779d6a7f4dad77c2bd34601d94e4"
+            "23": "5a813a9e051e1d85cb778f9c15ed7e03510958eea9239e0c10a0b22e22fbe8a8",
+            "latest": "cd1e9127a3f8fb1619bcb43ff99a3d5113d44aa34035a3cb0f39b883cad53237"
         },
-        "fudcon": {
-            "motd": "8cade8316eed462cf157dc2cefd42b12c1df64fe5708327ec8b42a9ab983256d"
+        "docker.io/ubuntu": {
+            "latest": "8e5b7248472b1cf370e8b181c357148a5aff33c0b8da2ba133701f599de15a84"
         },
-        "swarm": {
-            "latest": "bf8b6923851df5766cec2be2da61a214e42577d8fb3e6739fa0290de71575243"
-        },
-        "ubuntu": {
-            "14.04": "b7cf8f0d9e82c9d96bd7afd22c600bfdb86b8d66c50d29164e5ad2fb02f7187b",
-            "14.04.2": "b7cf8f0d9e82c9d96bd7afd22c600bfdb86b8d66c50d29164e5ad2fb02f7187b",
-            "trusty-20150320": "b7cf8f0d9e82c9d96bd7afd22c600bfdb86b8d66c50d29164e5ad2fb02f7187b"
+        "pycon": {
+            "motd": "f6b39867b3e9b8f118510a3e956704726291b37984b1abc74ba8b8061f751556"
         }
     }
 }
-
 ----------
 
 === Attaching to a container
 
 ----------
-~]#  ID=$(sudo docker run -d fedora /bin/sh -c "while true; do echo Rootconf14 ; sleep 1; done")
-~]#  docker attach $ID
-
+$ ID=$(sudo docker run -d fedora /bin/sh -c "while true; do echo PyCon 2016 ; sleep 1; done")
+$ docker attach $ID
+PyCon 2016
+PyCon 2016
+[SNIP]
 ----------
 
 === Stop/Start/Restart a conatiner
@@ -310,16 +321,16 @@ $ docker rm `docker ps -a -q`
 === Privileged access inside container
  
 ----------
-$ sudo docker run -t -i fedora /bin/bash
-bash-4.2# mount -t tmpfs none /mnt
+$ docker run -t -i fedora /bin/bash
+[root@50559bf9ab0a /]# mount -t tmpfs none /mnt 
 mount: permission denied
-bash-4.2# exit
+[root@50559bf9ab0a /]# exit
 ----------
 
 To get privilaged access, please run below command
 
 ----------
-$ sudo docker run --privileged -t -i fedora /bin/bash
+$ docker run --privileged -t -i fedora /bin/bash
 ----------
 
 === Return low level information about container
@@ -384,7 +395,7 @@ docker run -d -i -t -p 8080 fedora bash
 === Exposing a port while starting a container
 
 ---------------
-$ ID=$(docker run --expose=22 -d -i -t rootconf:sshd /bin/bash)
+$ ID=$(docker run --expose=22 -d -i -t pycon:sshd /bin/bash)
 ---------------
 
 === Mount a host directory on a conatiner
@@ -411,15 +422,15 @@ docker rmi $(docker images -q)
 === Building an image
 
 ----------
-$ mkdir /tmp/fudcon; cd /tmp/fudcon
+$ mkdir /tmp/pycon; cd /tmp/pycon
 $ echo "FROM fedora"  >> Dockerfile
 $ echo "MAINTAINER Lalatendu" >> Dockerfile
-$ docker build -t fudcon/fedora .
+$ docker build -t pycon/fedora .
 $ docker images
-docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
-fudcon/fedora       latest              8968bd645e1e        9 seconds ago       186.5 MB
-docker.io/fedora    latest              ded7cd95e059        4 weeks ago         186.5 MB
+pycon/fedora        latest              8ab29ba8abf2        5 seconds ago       204.4 MB
+pycon               motd                f6b39867b3e9        18 minutes ago      204.4 MB
+docker.io/fedora    23                  5a813a9e051e        31 hours ago        214.4 MB
 ----------
 
 === DockerFile Instructions
