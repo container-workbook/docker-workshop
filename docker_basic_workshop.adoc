@@ -100,6 +100,10 @@ like environment.
 
 == Installing Docker
 
+* There are multiple ways to install docker based on your platform, please read the docs https://docs.docker.com/engine/installation/
+* You can also get a VM on cloud provider like Amazon or Digital Ocean to make things easier for you.
+
+
 Fedora
 ^^^^^^
 
@@ -112,6 +116,21 @@ $ sudo systemctl enable docker
 
 Refer: https://docs.docker.com/installation/fedora/
 
+== Installing docker-compose
+
+* We will also look at how to dockerize an existing application and use docker-compose to bring multi-container application. To install docker-compose follow docs here: https://docs.docker.com/compose/install/
+
+
+== Before coming to workshop
+
+Docker images can be large in size, so before you come to workshop it would be great if you pre-pull some images, so run following commands to do it.
+
+----------
+$ docker pull centos
+$ docker pull fedora:24
+$ docker pull debian
+$ docker pull centos/postgresql-94-centos7
+----------
 
 == Check your Docker Install
 
