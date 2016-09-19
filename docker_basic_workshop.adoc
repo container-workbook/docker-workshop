@@ -489,4 +489,4 @@ docker.io/fedora    23                  5a813a9e051e        31 hours ago        
 * http://www.slideshare.net/jamtur01/introduction-to-docker-30285720
 * http://neependra.net/docker/rootconfWorkshop.html
 * https://www.packtpub.com/virtualization-and-cloud/docker-cookbook
-
+* https://github.com/LalatenduMohanty/container-workbook
