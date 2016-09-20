@@ -3,5 +3,4 @@
 /usr/local/bin/wait-for-it.sh REDIS_HOST:6379
 
 cd /app
-sh create.sh
 python app.py
