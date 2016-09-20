@@ -137,17 +137,6 @@ For other Linux distributions or Windows , OS X, refer: https://www.docker.com/p
 * We will also look at how to dockerize an existing application and use docker-compose to bring multi-container application. To install docker-compose follow docs here: https://docs.docker.com/compose/install/
 
 
-== Before coming to workshop
-
-Docker images can be large in size, so before you come to workshop it would be great if you pre-pull some images, so run following commands to do it.
-
-----------
-$ docker pull centos
-$ docker pull fedora:24
-$ docker pull debian
-$ docker pull centos/postgresql-94-centos7
-----------
-
 == Check your Docker Install
 
 ----------
@@ -214,9 +203,17 @@ cd1e9127a3f8: Pull complete
 Digest: sha256:52db7a1a18f173622a9b1a75354c7266220bffb7187c4880590805af0d7679d6
 Status: Downloaded newer image for docker.io/fedora:latest
 
+$ docker pull alpine
+Using default tag: latest
+Trying to pull repository docker.io/library/alpine ...
+latest: Pulling from docker.io/library/alpine
+117f30b7ae3d: Pull complete
+Digest: sha256:02eb5cfe4b721495135728ab4aea87418fd4edbfbf83612130a81191f0b2aae3
+Status: Downloaded newer image for docker.io/alpine:latest
+
 ----------
 
-Try pulling a tagged image i.e. `docker pull fedora:23`
+Try pulling a tagged image i.e. `docker pull fedora:24`
 
 === Listing images
 ----------
