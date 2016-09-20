@@ -8,10 +8,16 @@
 :numbered:
 :Author: Lalatendu Mohanty, Suraj Deshmukh
 :Email:  lmohanty@redhat.com sdeshmuk@redhat.com
+:revealjs_theme: beige
+:revealjs_slideNumber: true
+:revealjs_previewLinks: false
+:revealjs_transition: linear
+:revealjs_transitionSpeed: slow
+
 
 == What are we looking for?
 
-* Scalability, maintainability, Agility, Portability.
+* Scalability, Maintainability, Agility, Portability.
 * Improved resource utilization.
 * A continuum of abstraction levels.
 
@@ -20,9 +26,9 @@
 * Using Linux kernel process isolation and resource features to give a VM
 like environment.
 
-* Docker project is around two years old, but linux containers are older than that e.g. LXC.
+* Docker project is three years old, but linux containers are older than that e.g. LXC.
 
-* Some examples of linux container runtime: LXC, lmctfy, Docker, Rkt
+* Some examples of linux container runtime: LXC, lmctfy, Docker, rkt, etc.
 
 == Introducing Docker
 
@@ -35,22 +41,22 @@ like environment.
 == Why Developers Care?
 
 * Build once -> run anywhere*
-* A clean, safe, hygenic and portable runtime environment.
-* No worries about missing dependencies, packages etc.
+* A clean, safe, hygienic and portable runtime environment.
+* No worries about missing dependencies, packages, etc.
 * Automate testing, integration, packaging -> anything you can script.
 * It is portable* -> so it reduces the concern about portability.
 
 == Why Operations Care?
 
-* It reduces the time , from developing an application to putting it in to production
+* It reduces the time, from developing an application to putting it in to production.
 * The entire lifecycle can made more efficient, consistent and repeatable.
 * Reduce the inconsistencies between development, test, production and customer environment.
-* Because the containers are so lightweight, address significant performance, costs, deployment  and portability issues.
+* Because the containers are so light-weight; they significantly address performance, costs, deployment and portability issues.
 
-== Docker Vs Virtual Machine
+== Docker vs Virtual Machine
 
 * Lighter than Virtual machines.
-* Less startup time
+* Less startup time.
 * We can run a lot of containers on a reasonably sized host.
 * Deploying and scaling relatively easy.
 
@@ -76,13 +82,18 @@ like environment.
 
 === Kernel Security features
 
-* Capabilities
-** By default Docker drops all capabilities except those needed.
-** "root" within a container has much less privileges than the real "root".
-** The best practice for users would be to remove all capabilities except those explicitly required for their processes.
-** Even if an intruder manages to escalate to root within a container, it will be much harder to do serious damage, or to escalate to the host
+=== Capabilities
 
-* Other kernel security features: TOMOYO, AppArmor, SELinux, GRSEC, etc.
+[%step]
+* By default Docker drops all capabilities except those needed.
+* "root" within a container has much less privileges than the real "root".
+* The best practice for users would be to remove all capabilities except those explicitly required for their processes.
+* Even if an intruder manages to escalate to root within a container, it will be much harder to do serious damage, or to escalate to the host
+
+=== Other kernel security features: 
+
+[%step]
+* TOMOYO, AppArmor, SELinux, GRSEC, etc.
 
 === SELinux
 
@@ -100,6 +111,8 @@ like environment.
 
 == Prerequisite for the workshop
 
+=== Note
+
 * You should be able to run docker command line on your workstation or in a VM or a machine running in public clouds.
 
 * We will recommend you to run a GNU/Linux distribution of your choice on your laptop or atleast a virtual machine. Then you should install docker on it.
@@ -108,7 +121,9 @@ like environment.
 
 ** Refer the below section for commands to install it on Fedora.
 
-* Before coming for the workshop, pull docker image of Fedora as conferences are not a good place to download stuff from internet.
+=== Before coming for the workshop
+
+* Pull docker image of Fedora as conferences are not a good place to download stuff from internet.
 
 ---------------------
 $ docker pull fedora
@@ -257,12 +272,13 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 
 === Saving a container state
 * Start a container
-* Modify a file
 ----------
 $ docker run -i -t fedora /bin/bash
-[root@88226d270d64 /]# 
-[root@88226d270d64 /]# echo "FUDCon workshop 2015" > /etc/motd
+----------
 
+* Modify a file
+----------
+[root@88226d270d64 /]# echo "FUDCon workshop 2015" > /etc/motd
 ----------
 
 * On a different terminal, save the container as an image
