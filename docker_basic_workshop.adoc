@@ -102,23 +102,31 @@ like environment.
 
 * You should be able to run docker command line on your workstation or in a VM or a machine running in public clouds.
 
+* We will recommend you to run a GNU/Linux distribution of your choice on your laptop or atleast a virtual machine. Then you should install docker on it.
+
+** Most of the Linux distributions e.g. Fedora provides you the docker package from the distribution it self.
+
+** Refer the below section for commands to install it on Fedora.
+
 * Before coming for the workshop, pull docker image of Fedora as conferences are not a good place to download stuff from internet.
 
+---------------------
 $ docker pull fedora
+---------------------
 
-== Installing Docker
+=== Installing Docker
 
 Fedora
 ^^^^^^
 
 [source, bash]
 -----------------
-$ sudo yum -y install docker
+$ sudo dnf -y install docker
 $ sudo systemctl start docker
 $ sudo systemctl enable docker
 -----------------
 
-Refer: https://docs.docker.com/installation/fedora/
+For other Linux distributions or Windows , OS X, refer: https://www.docker.com/products/overview
 
 
 == Check your Docker Install
