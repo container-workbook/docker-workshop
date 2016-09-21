@@ -9,7 +9,7 @@
 :Author: Lalatendu Mohanty, Suraj Deshmukh
 :Email:  lmohanty@redhat.com surajd@redhat.com
 
-=== Installing Docker
+=== Installing docker
 
 * There are multiple ways to install docker based on your platform, please read the docs https://docs.docker.com/engine/installation/
 * You can also get a VM on cloud provider like Amazon or Digital Ocean to make things easier for you.
@@ -32,7 +32,7 @@ For other Linux distributions or Windows , OS X, refer: https://www.docker.com/p
 * We will also look at how to dockerize an existing application and use docker-compose to bring multi-container application. To install docker-compose follow docs here: https://docs.docker.com/compose/install/
 
 
-== Check your Docker Install
+== Check your docker installation
 
 ----------
 $ docker info
@@ -69,7 +69,7 @@ WARNING: bridge-nf-call-iptables is disabled
 WARNING: bridge-nf-call-ip6tables is disabled
 ----------
 
-== Docker Basic operations
+== docker Basic operations
 
 === Search in public docker index
 ----------
@@ -156,7 +156,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 ----------
 $ docker run -i -t fedora /bin/bash
 [root@88226d270d64 /]# 
-[root@88226d270d64 /]# echo "FUDCon workshop 2015" > /etc/motd
+[root@88226d270d64 /]# echo "docker 101" > /etc/motd
 
 ----------
 
@@ -182,7 +182,7 @@ docker.io/ubuntu    latest              8e5b7248472b        3 weeks ago         
 docker.io/busybox   latest              0d380282e68b        3 months ago        1.113 MB
 ----------
 
-=== Looking in to Docker metatdata
+=== Looking in to docker metatdata
 
 ----------
 $ sudo cat /var/lib/docker/repositories-devicemapper  | python -mjson.tool
@@ -344,7 +344,7 @@ Remove all images
 docker rmi $(docker images -q)
 ---------------
 
-== DockerFiles
+== Dockerfiles
 
 === Building an image
 

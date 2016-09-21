@@ -16,7 +16,7 @@
 
 == What are we looking for?
 
-* Scalability, maintainability, Agility, Portability.
+* Scalability, Maintainability, Agility, Portability.
 * Improved resource utilization.
 * A continuum of abstraction levels.
 
@@ -25,11 +25,11 @@
 * Using Linux kernel process isolation and resource features to give a VM
 like environment.
 
-* Docker project is around two years old, but linux containers are older than that e.g. LXC.
+* docker project is three years old, but linux containers are older than that e.g. LXC.
 
-* Some examples of linux container runtime: LXC, lmctfy, Docker, Rkt
+* Some examples of linux container runtime: https://linuxcontainers.org/[LXC], https://github.com/google/lmctfy[lmctfy], https://github.com/docker/docker/[docker], https://github.com/coreos/rkt[rkt], etc.
 
-== Introducing Docker
+== Introducing docker
 
 * Sand boxing of process/Application
 
@@ -40,24 +40,24 @@ like environment.
 == Why Developers Care?
 
 * Build once -> run anywhere*
-* A clean, safe, hygenic and portable runtime environment.
-* No worries about missing dependencies, packages etc.
+* A clean, safe, hygienic and portable runtime environment.
+* No worries about missing dependencies, packages, etc.
 * Automate testing, integration, packaging -> anything you can script.
 * It is portable* -> so it reduces the concern about portability.
 
 == Why Operations Care?
 
-* It reduces the time , from developing an application to putting it in to production
+* It reduces the time, from developing an application to putting it in to production.
 * The entire lifecycle can made more efficient, consistent and repeatable.
 * Reduce the inconsistencies between development, test, production and customer environment.
-* Because the containers are so lightweight, address significant performance, costs, deployment  and portability issues.
+* Because the containers are so light-weight, they significantly address performance, costs, deployment and portability issues.
 
-== Docker Vs Virtual Machine
+== docker vs Virtual Machine
 
 * Lighter than Virtual machines.
-* Less startup time
+* Less startup time.
 * We can run a lot of containers on a reasonably sized host.
-* Deploying and scaling relatively easy.
+* Deploying and scaling is relatively easy.
 
 == Kernel Features which enables containrization
 
@@ -69,12 +69,12 @@ like environment.
 === Namespace
 
 * It helps to create isolated workspace for each process.
-* When you run a container, Docker creates a set of namespaces for that container.
+* When you run a container, docker creates a set of namespaces for that container.
 
 
 === Cgroup
 
-* Control Groups are another key component of Linux Containers
+* Control Groups are another key component of Linux Containers.
 * With Cgroup we can implement resource accounting and limiting.
 * Ensure that each container gets its fair share of memory, CPU, disk I/O.
 * Thanks to Cgroup, we can make sure that single container cannot bring the system down by exhausting resources.
@@ -82,18 +82,18 @@ like environment.
 === Kernel Security features
 
 * Capabilities
-** By default Docker drops all capabilities except those needed.
+** By default docker drops all capabilities except those needed.
 ** "root" within a container has much less privileges than the real "root".
 ** The best practice for users would be to remove all capabilities except those explicitly required for their processes.
 ** Even if an intruder manages to escalate to root within a container, it will be much harder to do serious damage, or to escalate to the host
 
-* Other kernel security features: TOMOYO, AppArmor, SELinux, GRSEC, etc.
+* Other kernel security features: https://wiki.archlinux.org/index.php/TOMOYO_Linux[TOMOYO], https://wiki.ubuntu.com/AppArmor[AppArmor], https://wiki.centos.org/HowTos/SELinux[SELinux], https://grsecurity.net/[GRSEC], etc.
 
 === SELinux
 
-* SELinux provides secure separation of containers by applying SELinux policy and labels. 
+* https://wiki.centos.org/HowTos/SELinux[SELinux] provides secure separation of containers by applying SELinux policy and labels. 
 
-== Docker Components
+== docker Components
 
 * *Image* : It is a template which is used to launch containers. 
 
