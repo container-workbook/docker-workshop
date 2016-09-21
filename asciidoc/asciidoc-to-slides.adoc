@@ -1,0 +1,62 @@
+// vim: set syntax=asciidoc:
+[[asciidoc-to-slides]]
+= Generating slides from Asciidoc
+:data-uri:
+:icons:
+:toc:
+:toclevels 4:
+:numbered:
+:Author: Lalatendu Mohanty, Suraj Deshmukh
+:Email:  lmohanty@redhat.com surajd@redhat.com
+
+== Installation
+
+[source, bash]
+-----------------
+$ sudo dnf -y install rubygem-asciidoctor rubygem-tilt rubygem-haml
+-----------------
+
+== Download all github code
+
+[source, bash]
+-----------------
+$ git clone https://github.com/asciidoctor/asciidoctor-deck.js
+$ git clone git://github.com/imakewebthings/deck.js.git
+-----------------
+
+== Add doc attributes
+
+[source, bash]
+-----------------
+// vim: set syntax=asciidoc:
+[[docker_basic_workshop]]
+= Docker Basics
+:data-uri:
+:icons:
+:toc:
+:toclevels 4:
+:numbered:
+:Author: Lalatendu Mohanty, Suraj Deshmukh
+:Email:  lmohanty@redhat.com sdeshmuk@redhat.com
+:revealjs_theme: beige
+:revealjs_slideNumber: true
+:revealjs_previewLinks: false
+:revealjs_transition: linear
+:revealjs_transitionSpeed: slow
+-----------------
+
+More asciidoc attributes: https://github.com/asciidoctor/asciidoctor-reveal.js/#revealjs-options
+
+== Convert
+
+[source, bash]
+-----------------
+$ asciidoctor -T asciidoctor-reveal.js/templates/slim docker_basic_workshop.adoc
+-----------------
+
+
+== References
+
+* Deck.js Backend for Asciidoctor http://asciidoctor.org/docs/install-and-use-deckjs-backend/
+* reveal.js backend for Asciidoctor https://github.com/asciidoctor/asciidoctor-reveal.js/
+
