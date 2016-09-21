@@ -1,0 +1,163 @@
+// vim: set syntax=asciidoc:
+[[README]]
+= Walkthrough containerizing application
+:data-uri:
+:icons:
+:toc:
+:toclevels 4:
+:numbered:
+:Author: Lalatendu Mohanty, Suraj Deshmukh
+:Email:  lmohanty@redhat.com surajd@redhat.com
+
+== Running the app in traditional way
+
+=== Start redis server
+
+* Install redis
+
+[source, bash]
+-----------------
+$ sudo dnf -y install redis
+-----------------
+
+* Start redis server
+
+[source, bash]
+-----------------
+$ sudo systemctl start redis
+-----------------
+
+
+=== Start flask server
+
+* Create a python virtualenv
+
+[source, bash]
+-----------------
+$ virtualenv venv
+$ . venv/bin/activate
+(venv) $
+-----------------
+
+* Install all the requirements
+
+[source, bash]
+-----------------
+(venv) $ pip install -r requirements.txt
+-----------------
+
+* Start flask app
+
+[source, bash]
+-----------------
+(venv) $ export REDIS_HOST=localhost
+(venv) $ python app.py
+-----------------
+
+=== Check if app is running
+
+[source, bash]
+-----------------
+$ curl localhost:5000
+<h3>Hello Pythonistas</h3> <br/><h2>Number of Hits:</2> 1<br/>
+-----------------
+
+
+== Running app in container
+
+
+=== Containerize flask app
+
+* Create `Dockerfile` that looks like this:
+
+[source, bash]
+-----------------
+$ cat Dockerfile
+FROM fedora:24
+
+RUN dnf update -y && \
+    dnf install -y python-pip python-devel
+
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/local/bin/wait-for-it.sh
+
+RUN chmod +x /usr/local/bin/wait-for-it.sh && mkdir -p /app
+
+WORKDIR /app
+COPY . /app
+
+RUN pip install -r requirements.txt
+
+EXPOSE 5000
+
+ENTRYPOINT /app/entrypoint.sh
+-----------------
+
+* Create an `entrypoint.sh` file which looks like this:
+
+[source, bash]
+-----------------
+$ cat entrypoint.sh
+#!/bin/bash
+
+/usr/local/bin/wait-for-it.sh REDIS_HOST:6379
+
+cd /app
+python app.py
+-----------------
+
+* Add permissions to `entrypoint.sh`
+
+[source, bash]
+-----------------
+$ chmod +x entrypoint.sh
+-----------------
+
+=== Multi-container app definition
+
+* Create a `docker-compose.yml` file that defines multi-container application
+
+[source, bash]
+-----------------
+$ cat docker-compose.yml
+version: '2'
+
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - "6379"
+
+  app:
+    build: .
+    ports:
+      - "5000"
+    environment:
+      - REDIS_HOST=redis
+-----------------
+
+=== Bring up the application
+
+
+[source, bash]
+-----------------
+$ docker-compose up
+-----------------
+
+=== Check if the app is running
+
+* Find out the port flask app is exposed on:
+
+[source, bash]
+-----------------
+$ docker ps | grep pyconapp_app
+-----------------
+
+* `curl` on it:
+
+[source, bash]
+-----------------
+$ curl localhost:32774
+<h3>Hello Pythonistas</h3> <br/><h2>Number of Hits:</2> 1<br/>
+-----------------
+
+So that's how you can migrate an app that is monolithic and containerize it.

@@ -7,7 +7,7 @@
 :toclevels 4:
 :numbered:
 :Author: Lalatendu Mohanty, Suraj Deshmukh
-:Email:  lmohanty@redhat.com sdeshmuk@redhat.com
+:Email:  lmohanty@redhat.com surajd@redhat.com
 
 == What are we looking for?
 
