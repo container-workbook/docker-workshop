@@ -35,38 +35,51 @@ For other Linux distributions or Windows , OS X, refer: https://www.docker.com/p
 == Check your docker installation
 
 ----------
-$ docker info
-Containers: 2
-Images: 13
-Server Version: 1.9.1
+$ docker info 
+Containers: 0
+ Running: 0
+ Paused: 0
+ Stopped: 0
+Images: 2
+Server Version: 1.10.3
 Storage Driver: devicemapper
- Pool Name: vg001-docker--pool
- Pool Blocksize: 524.3 kB
- Base Device Size: 107.4 GB
+ Pool Name: docker-252:1-1574682-pool
+ Pool Blocksize: 65.54 kB
+ Base Device Size: 10.74 GB
  Backing Filesystem: xfs
- Data file: 
- Metadata file: 
- Data Space Used: 798 MB
- Data Space Total: 13.6 GB
- Data Space Available: 12.8 GB
- Metadata Space Used: 225.3 kB
- Metadata Space Total: 46.14 MB
- Metadata Space Available: 45.91 MB
+ Data file: /dev/loop0
+ Metadata file: /dev/loop1
+ Data Space Used: 268.4 MB
+ Data Space Total: 107.4 GB
+ Data Space Available: 40.71 GB
+ Metadata Space Used: 704.5 kB
+ Metadata Space Total: 2.147 GB
+ Metadata Space Available: 2.147 GB
  Udev Sync Supported: true
- Deferred Removal Enabled: true
- Deferred Deletion Enabled: true
+ Deferred Removal Enabled: false
+ Deferred Deletion Enabled: false
  Deferred Deleted Device Count: 0
- Library Version: 1.02.107-RHEL7 (2015-12-01)
+ Data loop file: /var/lib/docker/devicemapper/devicemapper/data
+ WARNING: Usage of loopback devices is strongly discouraged for production use. Either use `--storage-opt dm.thinpooldev` or use `--storage-opt dm.no_warn_on_loop_devices=true` to suppress this warning.
+ Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata
+ Library Version: 1.02.122 (2016-04-09)
 Execution Driver: native-0.2
-Logging Driver: json-file
-Kernel Version: 3.10.0-327.18.2.el7.x86_64
-Operating System: CentOS Linux 7 (Core)
-CPUs: 2
-Total Memory: 992.8 MiB
-Name: centos7-adb
-ID: PMBW:NKH6:AW3M:PI3A:XLKG:LTJF:O7IE:WGFB:BFEN:G7HS:SDRM:UY5R
+Logging Driver: journald
+Plugins: 
+ Volume: local
+ Network: host bridge null
+Kernel Version: 4.7.3-200.fc24.x86_64
+Operating System: Fedora 24 (Cloud Edition)
+OSType: linux
+Architecture: x86_64
+Number of Docker Hooks: 2
+CPUs: 4
+Total Memory: 3.859 GiB
+Name: fedora
+ID: Y4OB:3DAQ:MMLV:M7RP:7UFB:KE2U:XAR3:KQIN:MDAY:TEDW:CVR6:WOGW
 WARNING: bridge-nf-call-iptables is disabled
 WARNING: bridge-nf-call-ip6tables is disabled
+Registries: docker.io (secure)
 ----------
 
 == docker Basic operations
@@ -74,61 +87,54 @@ WARNING: bridge-nf-call-ip6tables is disabled
 === Search in public docker index
 ----------
 $ docker search fedora
-INDEX       NAME                                     DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
-docker.io   docker.io/fedora                         Official Docker builds of Fedora                371       [OK]       
-docker.io   docker.io/dockingbay/fedora-rust         Trusted build of Rust programming language...   3                    [OK]
-docker.io   docker.io/gluster/gluster-fedora         Official GlusterFS image [ Fedora 21 + Glu...   3                    [OK]
-docker.io   docker.io/eminguez/transmission-fedora   Transmission Fedora 22 docker container         2                    [OK]
-docker.io   docker.io/startx/fedora                  Simple container used for all startx based...   2                    [OK]
-docker.io   docker.io/dasrick/fedora-nginx           NGINX image - port 80, 443 - based on Fedo...   1                    [OK]
-docker.io   docker.io/fedora/tools                   Docker image that has systems administrati...   1                    [OK]
-docker.io   docker.io/mattsch/fedora-rpmfusion       Base container for Fedora 22 with RPM Fusi...   1                    [OK]
-docker.io   docker.io/neroinc/fedora-apache          Plain and simple image with Apache httpd b...   1                    [OK]
-docker.io   docker.io/cloudrunnerio/fedora                                                           0                    [OK]
+INDEX       NAME                                    DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+docker.io   docker.io/fedora                        Official Docker builds of Fedora                429       [OK]       
+docker.io   docker.io/fedora/apache                                                                 33                   [OK]
+docker.io   docker.io/dockingbay/fedora-rust        Trusted build of Rust programming language...   3                    [OK]
+docker.io   docker.io/gluster/gluster-fedora        Official GlusterFS image [ Fedora 21 + Glu...   3                    [OK]
+docker.io   docker.io/startx/fedora                 Simple container used for all startx based...   2                    [OK]
+docker.io   docker.io/dasrick/fedora-nginx          NGINX image - port 80, 443 - based on Fedo...   1                    [OK]
+docker.io   docker.io/fedora/tools                  Docker image that has systems administrati...   1                    [OK]
+docker.io   docker.io/mattsch/fedora-rpmfusion      Base container for Fedora with RPM Fusion ...   1                    [OK]
+docker.io   docker.io/neroinc/fedora-apache         Plain and simple image with Apache httpd b...   1                    [OK]
+docker.io   docker.io/pacur/fedora-22               Pacur Fedora 22                                 1                    [OK]
 ----------
 
 === Pull an image
 ----------
-$ docker pull fedora
-Using default tag: latest
-Trying to pull repository docker.io/library/fedora ... latest: Pulling from library/fedora
-
-62b0615068df: Pull complete 
-cd1e9127a3f8: Pull complete 
-Digest: sha256:52db7a1a18f173622a9b1a75354c7266220bffb7187c4880590805af0d7679d6
-Status: Downloaded newer image for docker.io/fedora:latest
+$ docker pull fedora:24
+Trying to pull repository docker.io/library/fedora ... 
+24: Pulling from docker.io/library/fedora
+Digest: sha256:64a02df6aac27d1200c2572fe4b9949f1970d05f74d367ce4af994ba5dc3669e
+Status: Downloaded newer image for docker.io/fedora:24
 
 $ docker pull alpine
 Using default tag: latest
-Trying to pull repository docker.io/library/alpine ...
+Trying to pull repository docker.io/library/alpine ... 
 latest: Pulling from docker.io/library/alpine
-117f30b7ae3d: Pull complete
+117f30b7ae3d: Pull complete 
 Digest: sha256:02eb5cfe4b721495135728ab4aea87418fd4edbfbf83612130a81191f0b2aae3
 Status: Downloaded newer image for docker.io/alpine:latest
-
 ----------
 
 Try pulling a tagged image i.e. `docker pull fedora:24`
 
 === Listing images
 ----------
-$ docker images 
-REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
-docker.io/fedora    23                  5a813a9e051e        31 hours ago        214.4 MB
-docker.io/fedora    latest              cd1e9127a3f8        34 hours ago        204.4 MB
-docker.io/centos    latest              a65193109361        2 weeks ago         196.7 MB
-docker.io/ubuntu    latest              8e5b7248472b        3 weeks ago         122 MB
-docker.io/busybox   latest              0d380282e68b        3 months ago        1.113 MB
-
+$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+docker.io/centos    latest              980e0e4c79ec        2 weeks ago         196.7 MB
+docker.io/fedora    24                  11a5107645d4        5 weeks ago         204.4 MB
+docker.io/fedora    latest              11a5107645d4        5 weeks ago         204.4 MB
 ----------
+
 === Start a container from an image
 ----------
 $ docker run -it fedora bash
-[root@57c2ac5812d5 /]# 
-[root@57c2ac5812d5 /]# cat /etc/fedora-release 
+[root@1b65159da55c /]# cat /etc/fedora-release 
 Fedora release 24 (Twenty Four)
-
 ----------
+
 === Listing the containers
 
 Open another terrminal and run below command while running the container as mentioned in the previous state.
@@ -136,17 +142,15 @@ Open another terrminal and run below command while running the container as ment
 ----------
 $ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
-2e18e1d045ed        centos              "bash"              7 minutes ago       Up 7 minutes                            gloomy_spence
-5e7d81c7e1ad        busybox             "sh"                7 minutes ago       Up 7 minutes                            kickass_curie
+1b65159da55c        fedora              "bash"              35 seconds ago      Up 33 seconds                           silly_morse
 
 ----------
 *To list all containers (both running and stopped)*
 ----------
 $ docker ps -a
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                      PORTS               NAMES
-57c2ac5812d5        fedora              "bash"              2 minutes ago       Exited (0) 38 seconds ago                       grave_babbage
-2e18e1d045ed        centos              "bash"              7 minutes ago       Up 7 minutes                                    gloomy_spence
-5e7d81c7e1ad        busybox             "sh"                7 minutes ago       Up 7 minutes                                    kickass_curie
+CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS                      PORTS               NAMES
+23e00a59a9b4        fedora              "ls"                6 seconds ago        Exited (0) 4 seconds ago                        adoring_knuth
+1b65159da55c        fedora              "bash"              About a minute ago   Exited (0) 12 seconds ago                       silly_morse
 
 ----------
 
@@ -154,9 +158,8 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 * Start a container
 * Modify a file
 ----------
-$ docker run -i -t fedora /bin/bash
-[root@88226d270d64 /]# 
-[root@88226d270d64 /]# echo "docker 101" > /etc/motd
+]$ docker run -i -t fedora /bin/bash
+[root@f369268c54cd /]# echo "docker 101" > /etc/motd
 
 ----------
 
@@ -164,46 +167,36 @@ $ docker run -i -t fedora /bin/bash
 ----------
 $ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
-88226d270d64        fedora              "/bin/bash"         41 seconds ago      Up 40 seconds                           small_williams
-2e18e1d045ed        centos              "bash"              8 minutes ago       Up 8 minutes                            gloomy_spence
-5e7d81c7e1ad        busybox             "sh"                9 minutes ago       Up 9 minutes                            kickass_curie
+f369268c54cd        fedora              "/bin/bash"         37 seconds ago      Up 35 seconds                           amazing_turing
 
-$ docker commit -a "Lalatendu Mohanty" -m "PyCon 2016" 88226d270d64 pycon:motd
-f6b39867b3e9b8f118510a3e956704726291b37984b1abc74ba8b8061f751556
-
+$ docker commit -a "Lalatendu Mohanty" -m "PyCon 2016" f369268c54cd pycon:motd
+sha256:ce9d49c4ff59b756621dd18479a80fbb16eb25595949bc7ad0c1f22430c21397
 
 $ docker images
-REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
-pycon               motd                f6b39867b3e9        5 seconds ago       204.4 MB
-docker.io/fedora    23                  5a813a9e051e        31 hours ago        214.4 MB
-docker.io/fedora    latest              cd1e9127a3f8        34 hours ago        204.4 MB
-docker.io/centos    latest              a65193109361        2 weeks ago         196.7 MB
-docker.io/ubuntu    latest              8e5b7248472b        3 weeks ago         122 MB
-docker.io/busybox   latest              0d380282e68b        3 months ago        1.113 MB
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+pycon               motd                ce9d49c4ff59        16 seconds ago      204.4 MB
+docker.io/centos    latest              980e0e4c79ec        2 weeks ago         196.7 MB
+docker.io/fedora    24                  11a5107645d4        5 weeks ago         204.4 MB
+docker.io/fedora    latest              11a5107645d4        5 weeks ago         204.4 MB
 ----------
 
 === Looking in to docker metatdata
 
 ----------
-$ sudo cat /var/lib/docker/repositories-devicemapper  | python -mjson.tool
+$ sudo cat /var/lib/docker/image/devicemapper/repositories.json  | python -mjson.tool
 {
-    "ConfirmDefPush": true,
     "Repositories": {
-        "docker.io/busybox": {
-            "latest": "0d380282e68b755298e8260191124eb84defc04c1de31173df2d837d64e504b8"
-        },
         "docker.io/centos": {
-            "latest": "a65193109361c1c55a0baa79c2167ec417b977f284b3358f4d50b81e22f84ec5"
+            "docker.io/centos:latest": "sha256:980e0e4c79ec933406e467a296ce3b86685e6b42eed2f873745e6a91d718e37a",
+            "docker.io/centos@sha256:2ae0d2c881c7123870114fb9cc7afabd1e31f9888dac8286884f6cf59373ed9b": "sha256:980e0e4c79ec933406e467a296ce3b86685e6b42eed2f873745e6a91d718e37a"
         },
         "docker.io/fedora": {
-            "23": "5a813a9e051e1d85cb778f9c15ed7e03510958eea9239e0c10a0b22e22fbe8a8",
-            "latest": "cd1e9127a3f8fb1619bcb43ff99a3d5113d44aa34035a3cb0f39b883cad53237"
-        },
-        "docker.io/ubuntu": {
-            "latest": "8e5b7248472b1cf370e8b181c357148a5aff33c0b8da2ba133701f599de15a84"
+            "docker.io/fedora:24": "sha256:11a5107645d4ecb36e75d933576f5cdb52358bef385eac2c2d2a91af44ad4ad7",
+            "docker.io/fedora:latest": "sha256:11a5107645d4ecb36e75d933576f5cdb52358bef385eac2c2d2a91af44ad4ad7",
+            "docker.io/fedora@sha256:64a02df6aac27d1200c2572fe4b9949f1970d05f74d367ce4af994ba5dc3669e": "sha256:11a5107645d4ecb36e75d933576f5cdb52358bef385eac2c2d2a91af44ad4ad7"
         },
         "pycon": {
-            "motd": "f6b39867b3e9b8f118510a3e956704726291b37984b1abc74ba8b8061f751556"
+            "pycon:motd": "sha256:ce9d49c4ff59b756621dd18479a80fbb16eb25595949bc7ad0c1f22430c21397"
         }
     }
 }
@@ -243,8 +236,9 @@ $ docker rm $ID
 === Delete all stopped containers
  
 ----------
-$ docker rm `docker ps -a -q`
+$ docker rm $(docker ps -aq)
 ----------
+
 === Privileged access inside container
  
 ----------
