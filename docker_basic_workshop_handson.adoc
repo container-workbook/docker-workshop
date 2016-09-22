@@ -260,6 +260,21 @@ $ docker run --privileged -t -i fedora /bin/bash
 $ docker inspect $ID
 $ docker inspect --format='{{.NetworkSettings.IPAddress}}'  $ID
 ----------
+
+=== Check how much resources are used by the container
+
+------------
+$ docker stats
+------------
+
+=== Update resources of a container
+
+------------
+$ docker update  -m 512MB <ID>
+
+P:S: You can get the container ID from "docker ps" command output
+------------
+
 === Copy files/folders from a PATH on the container to a HOSTDIR on the host
  
 ----------
