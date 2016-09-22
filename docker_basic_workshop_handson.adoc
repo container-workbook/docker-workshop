@@ -304,7 +304,7 @@ docker diff $ID
 $ docker history
 ---------------
 
-=== Port redirection
+=== Networking
 
 *Bind a port to host interface*
 
@@ -333,6 +333,8 @@ docker run -d -i -t -p 8080 fedora bash
 ---------------
 $ ID=$(docker run --expose=22 -d -i -t pycon:sshd /bin/bash)
 ---------------
+
+*For further study, refer: https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/*
 
 === Mount a host directory on a conatiner
 
