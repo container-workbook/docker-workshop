@@ -17,7 +17,7 @@
 
 [source, bash]
 -----------------
-$ sudo dnf -y install redis
+$ sudo dnf -y install git redis python2-virtualenv python-pip python-devel
 -----------------
 
 * Start redis server
@@ -29,6 +29,15 @@ $ sudo systemctl start redis
 
 
 === Start flask server
+
+* Clone this repository
+
+[source, bash]
+-----------------
+$ git clone https://github.com/container-workbook/docker-workshop/
+$ cd docker-workshop/pyconapp/
+-----------------
+
 
 * Create a python virtualenv
 
@@ -50,7 +59,7 @@ $ . venv/bin/activate
 
 [source, bash]
 -----------------
-(venv) $ export REDIS_HOST=localhost
+(venv) $ export REDIS_HOST=127.0.0.1
 (venv) $ python app.py
 -----------------
 
@@ -58,7 +67,7 @@ $ . venv/bin/activate
 
 [source, bash]
 -----------------
-$ curl localhost:5000
+$ curl 127.0.0.1:5000
 <h3>Hello Pythonistas</h3> <br/><h2>Number of Hits:</2> 1<br/>
 -----------------
 
@@ -156,7 +165,7 @@ $ docker ps | grep pyconapp_app
 
 [source, bash]
 -----------------
-$ curl localhost:32774
+$ curl 127.0.0.1:32774
 <h3>Hello Pythonistas</h3> <br/><h2>Number of Hits:</2> 1<br/>
 -----------------
 
