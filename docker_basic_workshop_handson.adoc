@@ -336,12 +336,31 @@ $ ID=$(docker run --expose=22 -d -i -t pycon:sshd /bin/bash)
 
 *For further study, refer: https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/*
 
-=== Mount a host directory on a conatiner
+
+=== Docker volumes
+
+* Any uncommitted data or changes in containers get lost as soon as containers are deleted
+
+==== Data volumes
+
+* Data volumes persist even if the container itself is deleted.
+
+--------------
+$ docker run -i -t --name demo -v /data docker.io/fedora /bin/bash
+
+Run below command in another terminal
+
+$ docker inspect
+--------------
+
+==== Mount a host directory as a data volume
 
 ---------------
 $ docker run  -i -t -v /var/logs:/logs_from_host:ro fedora bash
 $ ls logs_from_host/
 ---------------
+
+* Further study: https://docs.docker.com/engine/tutorials/dockervolumes/*
 
 === Remove docker image
 
