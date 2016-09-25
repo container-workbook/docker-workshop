@@ -119,6 +119,9 @@ like environment.
 $ docker pull fedora
 ---------------------
 
+== Next
+
+*Go to* : https://github.com/container-workbook/docker-workshop/blob/master/docker_basic_workshop_handson.adoc[Workshop hands-on guide]
 
 == References
 

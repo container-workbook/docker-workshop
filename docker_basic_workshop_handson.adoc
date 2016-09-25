@@ -441,6 +441,10 @@ docker.io/fedora    23                  5a813a9e051e        31 hours ago        
     Adds to the image a "trigger" instruction to be executed at a later time, when the image is used as the base for another build.
 
 
+== Next
+
+*Go to* : https://github.com/container-workbook/docker-workshop/blob/master/pyconapp/README.adoc[Containerizing Python Flask application]
+
 == References
 
 * http://www.slideshare.net/dotCloud/docker-intro-november
