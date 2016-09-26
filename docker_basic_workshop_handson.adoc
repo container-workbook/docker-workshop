@@ -267,13 +267,20 @@ $ docker inspect --format='{{.NetworkSettings.IPAddress}}'  $ID
 $ docker stats
 ------------
 
-=== Update resources of a container
+=== Controlling resources used by a container
 
 ------------
 $ docker update  -m 512MB <ID>
 
 P:S: You can get the container ID from "docker ps" command output
 ------------
+
+* You can specify resources while running the container too. Check the docker run command usage.
+
+------------
+$ docker run --help
+------------
+
 
 === Copy files/folders from a PATH on the container to a HOSTDIR on the host
  
